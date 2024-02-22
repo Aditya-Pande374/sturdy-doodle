@@ -85,44 +85,69 @@ window.addEventListener('load', () => {
     }
 
     const game = new Game(canvas);
-    let x = 0;
-    let abc = 1150;
-    let x2 = abc;
-    let gameSpeed = 15;
+   
+    let gameSpeed = 5;
+
     const bgimg = new Image();
     bgimg.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
-   
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const platformImage = new Image();
+    platformImage.src = "/backgroundLayers(1)/layer-5.png";
 
-        ctx.drawImage(bgimg, x, 0, canvas.width, canvas.height);
-        ctx.drawImage(bgimg, x2, 0, canvas.width, canvas.height);
-
-        if ((game.kbrd.right && game.player.collisionX > game.canvas.width * 0.5)) {
-            if (x < -abc) {
-                x = abc;
-            } else {
-                x -= gameSpeed;
-            }
-
-            if (x2 < -abc) {
-                x2 = abc;
-            } else {
-                x2 -= gameSpeed;
-            }
-        }else if(game.kbrd.left && game.player.collisionX < game.canvas.width * 0.5){
-            if (x > abc) {
-                x = -abc;
-            } else {
-                x += gameSpeed;
-            }
-
-            if (x2 > abc) {
-                x2 = -abc;
-            } else {
-                x2 += gameSpeed;
+    class Layers{
+        constructor(image, speedModifier, canvas, pos){
+            this.image = image;
+            this.x = 0;
+            this.abc = 1150;
+            this.x2 = this.abc;
+            this.speed = speedModifier;
+            this.canvas = canvas;
+            this.y = pos;
+        }
+        update(){
+            if ((game.kbrd.right && game.player.collisionX > game.canvas.width * 0.5)) {
+                if (this.x < -this.abc) {
+                    this.x = this.abc;
+                } else {
+                    this.x -= this.speed;
+                }
+    
+                if (this.x2 < -this.abc) {
+                    this.x2 = this.abc;
+                } else {
+                    this.x2 -= this.speed;
+                }
+            }else if(game.kbrd.left && game.player.collisionX < game.canvas.width * 0.5){
+                if (this.x > this.abc) {
+                    this.x = -this.abc;
+                } else {
+                    this.x += this.speed;
+                }
+    
+                if (this.x2 > this.abc) {
+                    this.x2 = -this.abc;
+                } else {
+                    this.x2 += this.speed;
+                }
             }
         }
+        draw(){
+            ctx.drawImage(this.image, this.x, this.y, this.canvas.width, this.canvas.height);
+            ctx.drawImage(this.image, this.x2, this.y, this.canvas.width, this.canvas.height);
+            // context.drawImage(Image, dX, dY, dWidth, dHeight);
+        }
+    }
+
+    const layer1 = new Layers(bgimg, gameSpeed, canvas, 0);
+    const layer2 = new Layers(platformImage, gameSpeed, canvas, 55);
+    
+    const screen = [layer1, layer2];
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        screen.forEach(object =>{
+            object.update();
+            object.draw();
+        });
         game.render(ctx);
         requestAnimationFrame(animate);
     }

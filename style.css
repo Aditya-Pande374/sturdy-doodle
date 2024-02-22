@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.game-cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+#canvas{
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    /* border: 2px solid red; */
+    background: url("/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png") center/74%;
+}
+
+.start-up{
+    padding: 10px 30px;
+    /* position: absolute;
+    bottom: 10%;
+    left: 5%; */
+    letter-spacing: 3px;
+    font-weight:bolder;
+    font-family: 'Barriecito', 'Kode Mono', sans-serif;
+    border-radius: 10px;
+    box-shadow: inset 1px 1px 60px ghostwhite;
+}

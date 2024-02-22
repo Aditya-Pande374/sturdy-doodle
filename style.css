@@ -17,8 +17,10 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); */
-    /* border: 2px solid red; */
-    background: url("/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png") center/74%;
+    border: 2px solid red;
+    /* background: url("/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png") center/74%; */
+    background-position: center/74%;
+    background-repeat: repeat-x;
 }
 
 .start-up{

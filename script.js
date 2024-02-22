@@ -1,9 +1,13 @@
 window.addEventListener('load', () => {
     const canvas = document.getElementById("canvas");
+    const gameCont = document.querySelector(".game-cont");
     const ctx = canvas.getContext("2d");
 
-    canvas.width = 1200;
-    canvas.height = 500;
+    // canvas.width = 1200;
+    // canvas.height = 500;
+
+    canvas.width = gameCont.clientWidth;
+    canvas.height = gameCont.clientHeight;
 
     class Player {
         constructor(game) {
@@ -40,12 +44,58 @@ window.addEventListener('load', () => {
         }
     }
 
+    class Obstacles {
+        constructor(game) {
+            this.game = game;
+            this.collisionX = this.game.width * 0.5;
+            this.collisionY = this.game.height * 0.8;
+            this.collisionRadius = 30;
+        }
+    
+        draw(context) {
+            context.beginPath();
+            context.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
+            context.save();
+            context.globalAlpha = 0.5;
+            context.fill();
+            context.restore();
+            context.stroke();
+            context.beginPath();
+            context.moveTo(this.collisionX, this.collisionY);
+            context.lineTo(this.collisionX, this.collisionY);
+            context.stroke();
+        }
+    
+        update() {
+            if (this.game.kbrd.left && this.game.player.collisionX < this.collisionX) {
+                this.collisionX += 5;
+            } else if (this.game.kbrd.right && this.game.player.collisionX > this.collisionX) {
+                this.collisionX -= 5;
+            }
+        }
+    
+        checkCollision() {
+            const player = this.game.player;
+    
+            if (
+                player.collisionX < this.collisionX + this.collisionRadius &&
+                player.collisionX + player.collisionRadius > this.collisionX &&
+                player.collisionY < this.collisionY + this.collisionRadius &&
+                player.collisionY + player.collisionRadius > this.collisionY
+            ) {
+                console.log('Collision with obstacle!');
+            }
+        }
+    }
+    
+
     class Game {
         constructor(canvas) {
             this.canvas = canvas;
             this.width = this.canvas.width;
             this.height = this.canvas.height;
             this.player = new Player(this);
+            this.obstacles = new Obstacles(this);
             this.kbrd = {
                 left: false,
                 right: false,
@@ -81,6 +131,8 @@ window.addEventListener('load', () => {
         render(context) {
             this.player.draw(context);
             this.player.update();
+            this.obstacles.draw(context);
+            this.obstacles.update();
         }
     }
 
@@ -97,7 +149,7 @@ window.addEventListener('load', () => {
         constructor(image, speedModifier, canvas, pos){
             this.image = image;
             this.x = 0;
-            this.abc = 1150;
+            this.abc = 1250;
             this.x2 = this.abc;
             this.speed = speedModifier;
             this.canvas = canvas;

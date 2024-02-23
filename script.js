@@ -19,14 +19,19 @@ window.addEventListener("load", () => {
       this.collisionY = this.posY;
       this.checkCollisionFloor = false;
       this.collisionRadius = 30;
-
       this.collisionHeight = 100;
       this.collisionWidth = 100;
+      
+      //Player Image related
+      this.playerImage = new Image();
+      this.playerImage.src = '/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Idle.png'
+      this.imgWidth = this.collisionWidth;
+      this.imgHeight = this.collisionHeight * 2;
     }
 
     draw(context) {
       context.save();
-      context.globalAlpha = 0.5;
+    //   context.globalAlpha = 0.5;
       context.fillRect(
         this.collisionX,
         this.collisionY,
@@ -39,7 +44,10 @@ window.addEventListener("load", () => {
         this.collisionHeight,
         this.collisionWidth
       );
-
+      
+      context.drawImage(this.playerImage, 10, 31, this.imgWidth, this.imgHeight, this.collisionX, this.collisionY, this.imgWidth, this.imgHeight);
+    //   context.drawImage(Image, dX, dY, dWidth, dHeight);
+    //   drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
       console.log("Players collisionY: " + this.collisionY);
       console.log("Players posY: " + this.posY);
       context.restore();

@@ -1,31 +1,23 @@
-# sturdy-doodle
+#sturdy-doodle
+This project serves as a valuable learning opportunity in various areas, including HTML Canvas, Sprite Sheet animations, Object-Oriented Programming, math and physics concepts, Collision Detection, and Gravity control.
 
-The sprite sheets and background layers being used are provided in the repo.
+Step-by-Step Approach:
 
-Useful for learning about:-
-  1. HTML Canvas
-  2. Sprite Sheet animations
-  3. Object Oriented Programming
-  4. Using math and physics related concepts
-  5. Collsion Detection
-  6. Gravity control
+1. Set up HTML, CSS, and JS files for the project.
+2. Organize files and folders, including images, stylesheets, and sounds.
+3. Create a Player class to establish the foundation for character interactions.
+4. Define initial coordinates for the player within the game environment.
+5. Implement background layers for an immersive visual experience.
+6. Enhance player interaction with background layers to depict movement.
+7. Introduce platforms (floors) to the game.
+8. Improve interactivity with platforms, creating a dynamic gaming environment.
+9. Implement collision detection mechanisms for a realistic gaming experience.
+10. Integrate gravity control to enhance the game's dynamics.
 
-These are the step-by-step approach Iam currently following (Might be changed, depending on my approaches and progress):-
-  1. Setting up the html, css and js files
-  2. Organizing the files and folders related to the project like images, stylesheets, sounds etc.
-  3. Creating a Player class
-  4. Setting up the player's co-ordinates
-  5. Creating background layers
-  6. Increasing the interactivity of the player with the background layers, to depict movement
-  7. Creating a platform(floor)
-  8. Increasing interactivity with the platform
-  9. Adding collision detection mechanisms
-  10. Added Gravity
+To-Do List:
 
-Yet to be done:-
-
-  1. Sounds
-  2. Adding player sprites
-  3. Adding Sprite animations
-  4. Adding obstacles, objects for better interactivity
-  5. Adding more player related features, like jump, attack, running, climbing etc
+1. Incorporate sounds to add an auditory dimension to the game.
+2. Integrate player sprites to bring the character to life visually.
+3. Implement Sprite animations for a more dynamic and visually appealing experience.
+4. Introduce obstacles and objects for enhanced interactivity and challenges.
+5. Expand player-related features, such as jump, attack, running, climbing, to enrich gameplay.

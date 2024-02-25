@@ -1,77 +1,55 @@
+// Wait for the entire window to load before initializing the game
 window.addEventListener("load", () => {
+  // Get canvas and context
   const canvas = document.getElementById("canvas");
   const gameCont = document.querySelector(".game-cont");
   const ctx = canvas.getContext("2d");
 
-  // canvas.width = 1200;
-  // canvas.height = 500;
-
+  // Set canvas dimensions
   canvas.width = gameCont.clientWidth;
   canvas.height = gameCont.clientHeight;
 
+  // Player class representing the main character
   class Player {
     constructor(game, floor) {
+      // Initialize player properties
       this.game = game;
       this.floor = floor;
-
-      this.posX = this.game.width * 0.07;
-      this.posY = this.game.height * 0.76;
+      this.posX = this.game.width * 0.005;
+      this.posY = this.game.height * 0.7;
 
       this.collisionX = this.posX;
       this.collisionY = this.posY;
 
-      this.collisionRadius = 30;
       this.collisionHeight = 100;
       this.collisionWidth = 100;
 
-      //Player Image related
+      this.sx = 36;
+      this.sy = 42;
+      this.sWidth = 64;
+      this.sHeight = 85;
+      this.imgWidth = 100;
+      this.imgHeight = 100;
+
+      // Player image properties
       this.playerImage = new Image();
       this.playerImage.src = "/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Idle.png";
-      this.imgWidth = this.collisionWidth;
-      this.imgHeight = this.collisionHeight * 2;
     }
 
+    // Method to draw the player on the canvas
     draw(context) {
       context.save();
-      /* 
-      context.globalAlpha = 0.5;
-      context.fillRect(
-        this.collisionX,
-        this.collisionY,
-        this.collisionHeight,
-        this.collisionWidth
-      );
-      context.strokeRect(
-        this.collisionX,
-        this.collisionY,
-        this.collisionHeight,
-        this.collisionWidth
-      );
-      */
-
-      context.drawImage(
-        this.playerImage,
-        10,
-        31,
-        this.imgWidth,
-        this.imgHeight,
-        this.collisionX,
-        this.collisionY,
-        this.imgWidth,
-        this.imgHeight
-      );
-
-      //   context.drawImage(Image, dX, dY, dWidth, dHeight);
-      //   drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-
+      context.drawImage(this.playerImage, this.sx, this.sy, this.sWidth, this.sHeight, this.collisionX, this.collisionY, this.imgWidth, this.imgHeight);
       context.restore();
     }
 
+    // Method to update player position and apply gravity
     update() {
-      let gravity = 5; // Adjust the gravity strength as needed
+      let gravity = 5;
       let gravitySpeed = 0;
-      // Move horizontally
-      if (this.game.kbrd.left && this.collisionX > this.game.width * 0.1) {
+
+      // Horizontal movement
+      if (this.game.kbrd.left && this.collisionX > this.game.width * 0.005) {
         this.collisionX -= 5;
       }
 
@@ -79,92 +57,96 @@ window.addEventListener("load", () => {
         this.collisionX += 5;
       }
 
+      // Vertical movement
       if (this.game.kbrd.up && this.collisionY >= this.game.height * 0.5) {
         this.collisionY -= 10;
-        gravitySpeed = 15;
-        layer1.y += 2;
-        layer2.y += 1.2;
-        this.floor.posY += 1.2;
-      } else if (
-        !this.game.kbrd.up &&
-        this.collisionY < this.game.height * 0.76
-      ) {
-        if (layer1.y != 0) {
-          layer1.y -= 2;
-          layer2.y -= 1.2;
-          this.floor.posY -= 1.2;
-        }
       }
+
       // Apply gravity
-      if (!this.game.kbrd.up && this.collisionY < this.game.height * 0.76) {
-        // Check and adjust for floor collision
+      if (!this.game.kbrd.up && this.collisionY < this.game.height * 0.75) {
         gravity += gravitySpeed;
         this.collisionY += 10;
       }
+
+      // Update player sprite collision coordinates
+      this.game.playerSprite.collisionX = this.collisionX;
+      this.game.playerSprite.collisionY = this.collisionY;
     }
   }
 
-  class PlayerSprite{
-    constructor(game){
+  // PlayerSprite class handling player sprite animations
+  class PlayerSprite {
+    constructor(game) {
       this.game = game;
-      this.runImage = new Image();
-      this.runImage.src = "./craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run.png";
-      
       this.posX = this.game.player.posX;
       this.posY = this.game.player.posY;
-
-      this.collisionX = this.game.player.posX;
-      this.collisionY = this.game.player.posY;
-
-      this.collisionRadius = this.game.player.collisionRadius;
       this.collisionHeight = this.game.player.collisionHeight;
       this.collisionWidth = this.game.player.collisionWidth;
+      
+      //Images Height and Width
+      this.collisionX = this.game.player.posX;
+      this.collisionY = this.game.player.posY;
+      this.sWidth = 64;
+      this.sHeight = 85;
+      this.imgWidth = 100;
+      this.imgHeight = 100;
 
-      this.imgWidth = this.game.player.collisionWidth;
-      this.imgHeight = this.game.player.collisionHeight * 2;
+      // Running Image
+      this.runImage = new Image();
+      this.sxRight = 36;
+      this.sxLeft = 930;
+      this.sy = 42;
+      this.runImageSX = [29, 160, 284, 421, 548, 672, 797, 930];
+      this.currentSXIndex = 0;
+      this.currentSXIndexLeft = 7;
 
-      this.sx = 10;
-      this.sy = 31;
-      this.iterator = 127;
-      this.total = 1040;
-      /*
-        total = 1040
-        i = 10, i<=total; i+=130
-        1: 10
-        2: 150
-        3: 280
-        4: 410
-      */
+      // Jump Images
+      
     }
 
+    // Method to draw the player sprite when moving right
     rightDraw(context) {
       context.save();
-      context.drawImage(
-        this.runImage,
-        this.sx,
-        this.sy,
-        this.imgWidth,
-        this.imgHeight,
-        this.collisionX,
-        this.collisionY,
-        this.imgWidth,
-        this.imgHeight
-      );
+      context.drawImage(this.runImage, this.sxRight, this.sy, this.sWidth, this.sHeight, this.collisionX, this.collisionY, this.imgWidth, this.imgHeight);
+
+      // drawImage(image, dx, dy)
+      // drawImage(image, dx, dy, dWidth, dHeight)
+      // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+
       context.restore();
     }
 
-    update() {
+    // Method to draw the player sprite when moving left
+    leftDraw(context) {
+      context.save();
       
-      this.collisionX = this.game.player.posX;
-      this.collisionY = this.game.player.posY;
+      context.drawImage(this.runImage, this.sxLeft, this.sy, this.sWidth, this.sHeight, this.collisionX, this.collisionY, this.imgWidth, this.imgHeight);
 
-      if(this.sx <= this.total)
-      this.sx += this.iterator;
-      else
-      this.sx = 10;
+      context.restore();
+    }
+
+    // Method to update player sprite animation and movement
+    update() {
+      // Right movement
+      if (this.game.kbrd.right) {
+        this.runImage.src = "/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run.png";
+        this.sxRight = this.runImageSX[this.currentSXIndex];
+        this.currentSXIndex = (this.currentSXIndex + 1) % this.runImageSX.length;
+      }
+
+      // Left Movement
+      if (this.game.kbrd.left) {
+        this.runImage.src = "/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run-left.png";
+        this.sxLeft = this.runImageSX[this.currentSXIndexLeft];
+        this.currentSXIndexLeft = (this.currentSXIndexLeft - 1);
+        if (this.currentSXIndexLeft < 0) {
+          this.currentSXIndexLeft = 7;
+        }
+      }
     }
   }
 
+  // Floor class representing the ground
   class Floor {
     constructor(game) {
       this.game = game;
@@ -172,17 +154,18 @@ window.addEventListener("load", () => {
       this.posY = 545;
       this.height = 55;
     }
+
+    // Method to draw the floor on the canvas
     draw(context) {
       context.save();
       context.globalAlpha = 0.2;
       context.fillStyle = "blue";
       context.fillRect(this.posX, this.posY, this.game.width, this.height);
-      // context.strokeRect(this.posX, this.posY, 100,100);
       context.restore();
-      // context.stroke();
     }
   }
 
+  // Game class handling overall game logic
   class Game {
     constructor(canvas) {
       this.canvas = canvas;
@@ -199,6 +182,7 @@ window.addEventListener("load", () => {
         down: false,
       };
 
+      // Event listeners for keyboard input
       window.addEventListener("keydown", (e) => {
         if (e.keyCode === 87 || e.keyCode === 38) {
           this.kbrd.up = true;
@@ -215,6 +199,7 @@ window.addEventListener("load", () => {
       });
 
       window.addEventListener("keyup", (e) => {
+        // Reset keyboard states when keys are released
         if (this.kbrd.left) {
           this.kbrd.left = false;
         } else if (this.kbrd.up) {
@@ -227,35 +212,44 @@ window.addEventListener("load", () => {
       });
     }
 
+    // Method to render the game elements on the canvas
     render(context) {
-      if(this.kbrd.right){
+      // Check if the player is moving right
+      if (this.kbrd.right) {
         this.playerSprite.rightDraw(context);
         this.playerSprite.update();
-      }
-      else{
+      } else if (this.kbrd.left) {
+        // Check if the player is moving left
+        this.playerSprite.leftDraw(context);
+        this.playerSprite.update();
+      } else {
+        // If not moving, draw the player
         this.player.draw(context);
-        this.player.update();
       }
-    
+
+      // Update player and floor
+      this.player.update();
       this.floor.draw(context);
     }
   }
 
+  // Create a new instance of the Game class
   const game = new Game(canvas);
 
+  // Set the initial game speed
   let gameSpeed = 5;
 
+  // Load background and platform images
   const bgimg = new Image();
   bgimg.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
   const platformImage = new Image();
   platformImage.src = "/backgroundLayers(1)/layer-5.png";
   const cloudImage = new Image();
-  cloudImage.src =
-    "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
+  cloudImage.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
   const skyImage = new Image();
-  skyImage.src =
-    "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
+  skyImage.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
 
+  // Layers class handling background layers
   class Layers {
     constructor(image, speedModifier, canvas, pos) {
       this.image = image;
@@ -267,38 +261,7 @@ window.addEventListener("load", () => {
       this.y = pos;
     }
 
-    // The update method is not in use right now
-    // update() {
-    //   if (game.kbrd.right && game.player.collisionX > game.canvas.width * 0.8) {
-    //     if (this.x < -this.abc) {
-    //       this.x = this.abc;
-    //     } else {
-    //       this.x -= this.speed;
-    //     }
-
-    //     if (this.x2 < -this.abc) {
-    //       this.x2 = this.abc;
-    //     } else {
-    //       this.x2 -= this.speed;
-    //     }
-    //   } else if (
-    //     game.kbrd.left &&
-    //     game.player.collisionX < game.canvas.width * 0.5
-    //   ) {
-    //     if (this.x > this.abc) {
-    //       this.x = -this.abc;
-    //     } else {
-    //       this.x += this.speed;
-    //     }
-
-    //     if (this.x2 > this.abc) {
-    //       this.x2 = -this.abc;
-    //     } else {
-    //       this.x2 += this.speed;
-    //     }
-    //   }
-    // }
-
+    // Method to draw the background layers on the canvas
     draw() {
       ctx.drawImage(
         this.image,
@@ -314,26 +277,33 @@ window.addEventListener("load", () => {
         this.canvas.width,
         this.canvas.height
       );
-      // context.drawImage(Image, dX, dY, dWidth, dHeight);
     }
   }
 
+  // Create instances of Layers for different background elements
   const layer1 = new Layers(bgimg, gameSpeed, canvas, 0);
   const layer2 = new Layers(platformImage, gameSpeed, canvas, 55);
   const layer3 = new Layers(skyImage, gameSpeed, canvas, 0);
   const layer4 = new Layers(cloudImage, gameSpeed, canvas, 0);
 
+  // Array to store background layers
   const screen = [layer3, layer4, layer1, layer2];
 
+  // Animation function to update and render the game
   function animate() {
+    // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw background layers and game elements
     screen.forEach((object) => {
-      // object.update();
       object.draw();
     });
     game.render(ctx);
+
+    // Request the next animation frame
     requestAnimationFrame(animate);
   }
 
+  // Start the animation loop
   animate();
 });

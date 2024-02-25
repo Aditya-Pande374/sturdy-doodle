@@ -312,7 +312,7 @@ window.addEventListener("load", () => {
       context.save();
       // context.fillStyle = 'black';
       // context.fillRect(0, 324, 437, 223)
-      // context.globalAlpha = this.globalAlpha;
+      context.globalAlpha = this.globalAlpha;
 
       context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
 
@@ -329,9 +329,10 @@ window.addEventListener("load", () => {
 
   const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1);
   const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1);
+  const objectComps = new Objects(compsImage, 2, 5, 126, 37, 300, 466, 400, 80, 1);
   
-  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY,this.dWidth, this.dHeight);
-  const animatedObject = [objectblackBackground, objectentryImage];
+  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+  const animatedObject = [objectblackBackground, objectentryImage, objectComps];
   // Animation function to update and render the game
   function animate() {
     // Clear the canvas

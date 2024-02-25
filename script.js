@@ -33,7 +33,7 @@ window.addEventListener("load", () => {
 
       // Player image properties
       this.playerImage = new Image();
-      this.playerImage.src = "/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Idle.png";
+      this.playerImage.src = "./Sprites/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Idle.png";
     }
 
     // Method to draw the player on the canvas
@@ -49,16 +49,16 @@ window.addEventListener("load", () => {
       let gravitySpeed = 0;
 
       // Horizontal movement
-      if (this.game.kbrd.left && this.collisionX > this.game.width * 0.005) {
-        this.collisionX -= 5;
+      if(this.game.kbrd.left && this.collisionX > this.game.width * 0.005){
+        this.collisionX -= 10
       }
-
-      if (this.game.kbrd.right && this.collisionX < this.game.width * 0.9) {
-        this.collisionX += 5;
+      if(this.game.kbrd.right && this.collisionX < this.game.width * 0.47){
+        this.collisionX += 10;
       }
 
       // Vertical movement
       if (this.game.kbrd.up && this.collisionY >= this.game.height * 0.5) {
+
         this.collisionY -= 10;
       }
 
@@ -129,14 +129,14 @@ window.addEventListener("load", () => {
     update() {
       // Right movement
       if (this.game.kbrd.right) {
-        this.runImage.src = "/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run.png";
+        this.runImage.src = "./Sprites/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run.png";
         this.sxRight = this.runImageSX[this.currentSXIndex];
         this.currentSXIndex = (this.currentSXIndex + 1) % this.runImageSX.length;
       }
 
       // Left Movement
-      if (this.game.kbrd.left) {
-        this.runImage.src = "/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run-left.png";
+      if(this.game.kbrd.left){
+        this.runImage.src = "./Sprites/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run-left.png"
         this.sxLeft = this.runImageSX[this.currentSXIndexLeft];
         this.currentSXIndexLeft = (this.currentSXIndexLeft - 1);
         if (this.currentSXIndexLeft < 0) {
@@ -178,15 +178,17 @@ window.addEventListener("load", () => {
       this.kbrd = {
         left: false,
         right: false,
-        up: false,
-        down: false,
+        up: false, // Fly
+        down: false
       };
 
       // Event listeners for keyboard input
       window.addEventListener("keydown", (e) => {
-        if (e.keyCode === 87 || e.keyCode === 38) {
+        if (this.kbrd.up && (e.keyCode === 87 || e.keyCode === 38)){
+          this.kbrd.up = false;
+        }else if (e.keyCode === 87 || e.keyCode === 38) {
           this.kbrd.up = true;
-        }
+        } 
         if (e.keyCode === 65 || e.keyCode === 37) {
           this.kbrd.left = true;
         }
@@ -202,11 +204,14 @@ window.addEventListener("load", () => {
         // Reset keyboard states when keys are released
         if (this.kbrd.left) {
           this.kbrd.left = false;
-        } else if (this.kbrd.up) {
-          this.kbrd.up = false;
-        } else if (this.kbrd.right) {
+        }
+        // if (this.kbrd.up) {
+        //   this.kbrd.up = false;
+        // }
+        if (this.kbrd.right) {
           this.kbrd.right = false;
-        } else if (this.kbrd.down) {
+        }
+        if (this.kbrd.down) {
           this.kbrd.down = false;
         }
       });
@@ -241,22 +246,21 @@ window.addEventListener("load", () => {
 
   // Load background and platform images
   const bgimg = new Image();
-  bgimg.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
+  bgimg.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
   const platformImage = new Image();
-  platformImage.src = "/backgroundLayers(1)/layer-5.png";
+  platformImage.src = "./Sprites/backgroundLayers(1)/layer-5.png";
   const cloudImage = new Image();
-  cloudImage.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
+  cloudImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
   const skyImage = new Image();
-  skyImage.src = "/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
+  skyImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
 
   // Layers class handling background layers
   class Layers {
-    constructor(image, speedModifier, canvas, pos) {
+    constructor(image, canvas, pos) {
       this.image = image;
       this.x = 0;
       this.abc = 1250;
       this.x2 = this.abc;
-      this.speed = speedModifier;
       this.canvas = canvas;
       this.y = pos;
     }
@@ -281,14 +285,53 @@ window.addEventListener("load", () => {
   }
 
   // Create instances of Layers for different background elements
-  const layer1 = new Layers(bgimg, gameSpeed, canvas, 0);
-  const layer2 = new Layers(platformImage, gameSpeed, canvas, 55);
-  const layer3 = new Layers(skyImage, gameSpeed, canvas, 0);
-  const layer4 = new Layers(cloudImage, gameSpeed, canvas, 0);
+  const layer1 = new Layers(skyImage, canvas, 0);
+  const layer2 = new Layers(cloudImage, canvas, 0);
+  const layer3 = new Layers(bgimg, canvas, 0);
+  const layer4 = new Layers(platformImage, canvas, 55);
 
   // Array to store background layers
-  const screen = [layer3, layer4, layer1, layer2];
+  const screen = [layer1, layer2, layer3, layer4];
 
+  //Objects
+  class Objects{
+    constructor(image, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight, globalAlpha){
+      this.objectImage = image;
+      this.sX= sX;
+      this.sy = sY;
+      this.sWidth = sWidth;
+      this.sHeight = sHeight;
+      this.dX = dX;
+      this.dY = dY;
+      this.dWidth = dWidth;
+      this.dHeight = dHeight;
+      this.globalAlpha = globalAlpha;
+    }
+
+    draw(context){
+      context.save();
+      // context.fillStyle = 'black';
+      // context.fillRect(0, 324, 437, 223)
+      // context.globalAlpha = this.globalAlpha;
+
+      context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+
+      context.restore();
+    }
+  }
+
+  const entryImage = new Image();
+  entryImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Animated objects/Entry.png";
+  const blackBackground = new Image();
+  blackBackground.src = "./Sprites/backgroundLayers(1)/Black.png"
+  const compsImage = new Image();
+  compsImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Animated objects/Screen2.png"
+
+  const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1);
+  const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1);
+  
+  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY,this.dWidth, this.dHeight);
+  const animatedObject = [objectblackBackground, objectentryImage];
   // Animation function to update and render the game
   function animate() {
     // Clear the canvas
@@ -297,6 +340,10 @@ window.addEventListener("load", () => {
     // Draw background layers and game elements
     screen.forEach((object) => {
       object.draw();
+    });
+
+    animatedObject.forEach((object) => {
+      object.draw(ctx);
     });
     game.render(ctx);
 

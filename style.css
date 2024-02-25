@@ -135,6 +135,7 @@ body{
     padding: 13px;
 
     animation: superb 1000ms infinite alternate;
+    display: none;
 }
 
 @keyframes superb{
@@ -145,11 +146,8 @@ body{
     }
 }
 
-.letters{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.letters div{
+    margin-bottom: 2px;
 }
 
 .about-me{

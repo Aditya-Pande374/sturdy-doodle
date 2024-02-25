@@ -330,8 +330,49 @@ window.addEventListener("load", () => {
   const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1);
   const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1);
   const objectComps = new Objects(compsImage, 2, 5, 126, 37, 300, 466, 400, 80, 1);
+
+  const aboutMe = document.querySelector(".about-me");
+  const skills = document.querySelector(".skills");
+  const projects = document.querySelector(".projects");
+  const contactMe = document.querySelector(".contact-me");
+
+  function abc(){
+    console.log("Player: "+game.player.collisionX);
+    console.log("Comp 1: "+objectComps.dX);
+    //About-Me
+    if(game.player.collisionX > objectComps.dX - 50 && game.player.collisionX < objectComps.dX){
+      console.log(true);
+      aboutMe.style.display = 'block';
+    }else {
+      aboutMe.style.display = 'none';
+    }
+    //Skills
+    if(game.player.collisionX >= objectComps.dX + 50 && game.player.collisionX < objectComps.dX + 110){
+      console.log(true);
+      skills.style.display = 'block';
+    }else {
+      skills.style.display = 'none';
+    }
+    //Projects
+    if(game.player.collisionX > objectComps.dX + 150 && game.player.collisionX < objectComps.dX + 210){
+      console.log(true);
+      projects.style.display = 'block';
+    }else {
+      projects.style.display = 'none';
+    }
+    //Contact-Me
+    if(game.player.collisionX > objectComps.dX + 250 && game.player.collisionX < objectComps.dX + 310){
+      console.log(true);
+      contactMe.style.display = 'block';
+    }else {
+      contactMe.style.display = 'none';
+    }
+  }
+
   
+
   // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+  
   const animatedObject = [objectblackBackground, objectentryImage, objectComps];
   // Animation function to update and render the game
   function animate() {
@@ -348,6 +389,7 @@ window.addEventListener("load", () => {
     });
     game.render(ctx);
 
+    abc();
     // Request the next animation frame
     requestAnimationFrame(animate);
   }

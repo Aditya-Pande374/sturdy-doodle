@@ -38,8 +38,8 @@ body{
 }
 
 .main-screen{
-    height: 300px;
-    width: 500px;
+    height: 85%;
+    width: 40%;
     background: rgba(34, 34, 34, 0.7);
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 4.5px );
@@ -48,14 +48,48 @@ body{
     border: 10px solid rgba( 255, 255, 255, 0.18 );
     border-radius: 20px;
     text-align: center;
-    padding-top: 30px;
     position: absolute;
-    top: 150px;
-    left: 30px;
+    top: 1%;
+    right: 1%;
     z-index: 2;
     font-family: 'Barriecito', 'Kode Mono', sans-serif;
     color: aliceblue;
-    display: none;
+    /* display: none; */
+}
+
+.name{
+    font-size: 65px;
+}
+
+.key-12{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin: 5px auto 0;
+    /* border: 2px solid red; */
+}
+
+.key-1, .key-2, .key-3{
+    width: 10%;
+    height: 40%;
+    border: 2px solid white;
+    padding: 5px;
+    box-shadow: inset 1px 1px 1px 2px white;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.key-2{
+    margin: 10px 10px 60px;
+}
+
+.instructions{
+    text-align: left;
+    padding-left: 20px;
+}
+.instructions div{
+    margin-top: 20px;
 }
 
 .start-up{

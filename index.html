@@ -1,42 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2D-Platformer</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="game-cont">
-        <canvas id="canvas">
-        </canvas>
-        <div class="main-screen">
-            <h1 class="name">ADITYA PANDE</h1>
-            <h2 class="my-role"><i class="fa-solid fa-minus"></i> Web Developer</h2>
-            <div class="keys">
-                <div class="key-12">
-                    <div class="key-1"><i class="fa-solid fa-arrow-left"></i></div>
-                    <div class="key-2"><i class="fa-solid fa-arrow-up"></i></div>
-                    <div class="key-3"><i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-                <div class="instructions">
-                    Use the Arrow Keys for controlling the character!
-                    <div>
-                        1. Press Left to go left
-                    </div>
-                    <div>
-                        2. Press Right to go right
-                    </div>
-                    <div>
-                        3. Press Up to Jump/Fly
-                    </div>
-                </div>
-            </div>
+      <canvas id="canvas"> </canvas>
 
+      <div class="main-screen">
+        <h1 class="name">ADITYA PANDE</h1>
+        <h2 class="my-role"><i class="fa-solid fa-minus"></i> Web Developer</h2>
+        <div class="keys">
+          <!-- JUMP -->
+          <div class="key-123">
+            <div class="kbrd-key key-1"></div>
+            <div class="kbrd-key key-2">
+              <i class="arrow fa-solid fa-arrow-up"></i>
+              <div class="jump">JUMP</div>
+            </div>
+            <div class="kbrd-key key-3"></div>
+          </div>
+
+          <!-- LEFT RIGHT -->
+          <div class="key-456">
+            <div class="kbrd-key key-4">
+              <i class="arrow fa-solid fa-arrow-left"></i>
+              <div class="go-left">LEFT</div>
+            </div>
+            <div class="kbrd-key key-5">
+              <i class="arrow fa-solid fa-arrow-right"></i>
+              <div class="go-right">RIGHT</div>
+            </div>
+          </div>
         </div>
+
+        <div class="instructions">
+          Tip: Head over to each of the red-coloured computer screens!
+        </div>
+      </div>
+
+      <!-- 
+                About Me
+                Skills
+                Projects
+                Contact Me
+             -->
+
+      <div class="about-me">
+        
+          <div>A</div>
+          <div>B</div>
+          <div>O</div>
+          <div>U</div>
+          <div>T</div>
+        
+      </div>
+
+      <div class="skills">
+
+          <div>S</div>
+          <div>K</div>
+          <div>I</div>
+          <div>L</div>
+          <div>L</div>
+        
+      </div>
+
+      <div class="projects">
+        
+          <div>P</div>
+          <div>R</div>
+          <div>O</div>
+          <div>J</div>
+          <div>E</div>
+          <div>C</div>
+          <div>T</div>
+          <div>S</div>
+        
+      </div>
+
+      <div class="contact-me">
+        
+          <div>C</div>
+          <div>O</div>
+          <div>N</div>
+          <div>T</div>
+          <div>A</div>
+          <div>C</div>
+          <div>T</div>
+        
+      </div>
     </div>
 
     <script src="script.js"></script>
-    <script src="https://kit.fontawesome.com/031ed58609.js" crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://kit.fontawesome.com/031ed58609.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

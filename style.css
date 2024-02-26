@@ -167,7 +167,6 @@ body{
     top: 42%;
     left: 49%;
 }
-<<<<<<< HEAD
 
 .letters::after {
     content: '';
@@ -183,5 +182,3 @@ body{
     left: 50%;
     transform: translateX(-50%);
   }
-=======
->>>>>>> 03ef8e89e0659acbf7779239512d181420916ce5

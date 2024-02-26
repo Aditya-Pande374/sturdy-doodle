@@ -115,27 +115,27 @@ body{
 .about-me, .skills, .projects, .contact-me {
     color: aliceblue;
     font-weight: bolder;
-    text-shadow: 0px 2.4px 1px rgb(0, 0, 0), 0 0 6px whitesmoke, 0 0 10px ghostwhite;
+    text-shadow: 0px 2.4px 1px rgb(0, 0, 0), 0 5px 10px black, 0 0 10px ghostwhite;
     z-index: 3;
-    
-    border-top: 2px solid white;
+    font-size: large;
+    /* border-top: 2px solid white;
     border-left: 1px solid white;
     border-right: 1px solid white;
-    border-bottom: 7px solid white;
+    border-bottom: 7px solid white; */
     
-    background: rgba(255, 255, 255, 0.2);
+    /* background: rgba(255, 255, 255, 0.2); */
 
     position: absolute;
-    top: 52%;
+    top: 49%;
     width: 1%;
     text-align: center;
 
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 100%;
+    /* border-bottom-left-radius: 60%;
+    border-bottom-right-radius: 60%; */
     padding: 13px;
 
     animation: superb 1000ms infinite alternate;
-    display: none;
+    /* display: none; */
 }
 
 @keyframes superb{
@@ -145,10 +145,10 @@ body{
         translate: 0 5px;
     }
 }
-
+/* 
 .letters div{
     margin-bottom: 2px;
-}
+} */
 
 .about-me{
     left: 25%;
@@ -159,11 +159,26 @@ body{
 }
 
 .projects{
-    top: 42%;
+    top: 38%;
     left: 41%;
 }
 
 .contact-me{
-    top: 46%;
+    top: 42%;
     left: 49%;
 }
+
+.letters::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent; /* Adjust the size as needed */
+    border-right: 7px solid transparent; /* Adjust the size as needed */
+    border-top: 12px solid rgba(255, 255, 255, 0.89); /* Adjust the size and color as needed */
+  
+    /* background: rgba(255, 255, 255, 0.2); */
+    position: absolute;
+    bottom: -7%;
+    left: 50%;
+    transform: translateX(-50%);
+  }

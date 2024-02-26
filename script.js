@@ -50,7 +50,7 @@ window.addEventListener("load", () => {
 
       // Horizontal movement
       if(this.game.kbrd.left && this.collisionX > this.game.width * 0.005){
-        this.collisionX -= 10
+        this.collisionX -= 10;
       }
       if(this.game.kbrd.right && this.collisionX < this.game.width * 0.47){
         this.collisionX += 10;
@@ -100,6 +100,11 @@ window.addEventListener("load", () => {
       this.currentSXIndex = 0;
       this.currentSXIndexLeft = 7;
 
+      
+      this.frameSpeed = 5;
+      this.lastUpdateTime = Date.now();
+      
+
       // Jump Images
       
     }
@@ -127,21 +132,30 @@ window.addEventListener("load", () => {
 
     // Method to update player sprite animation and movement
     update() {
+
+      const currentTime = Date.now();
+      const deltaTime = currentTime  - this.lastUpdateTime;
+
       // Right movement
       if (this.game.kbrd.right) {
         this.runImage.src = "./Sprites/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run.png";
+        if (deltaTime > 1000 / this.frameSpeed) {
         this.sxRight = this.runImageSX[this.currentSXIndex];
         this.currentSXIndex = (this.currentSXIndex + 1) % this.runImageSX.length;
       }
+    }
 
       // Left Movement
       if(this.game.kbrd.left){
         this.runImage.src = "./Sprites/craftpix-net-230380-free-shinobi-sprites-pixel-art/Fighter/Run-left.png"
-        this.sxLeft = this.runImageSX[this.currentSXIndexLeft];
-        this.currentSXIndexLeft = (this.currentSXIndexLeft - 1);
-        if (this.currentSXIndexLeft < 0) {
+        if (deltaTime > 1000 / this.frameSpeed) {
+          this.sxLeft = this.runImageSX[this.currentSXIndexLeft];
+          this.currentSXIndexLeft = (this.currentSXIndexLeft - 1);
+          if (this.currentSXIndexLeft < 0) {
           this.currentSXIndexLeft = 7;
         }
+        }
+        
       }
     }
   }
@@ -318,6 +332,10 @@ window.addEventListener("load", () => {
 
       context.restore();
     }
+
+    update(){
+      
+    }
   }
 
   const entryImage = new Image();
@@ -325,11 +343,15 @@ window.addEventListener("load", () => {
   const blackBackground = new Image();
   blackBackground.src = "./Sprites/backgroundLayers(1)/Black.png"
   const compsImage = new Image();
-  compsImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Animated objects/Screen2.png"
+  compsImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Animated objects/Screen2.png";
 
   const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1);
   const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1);
   const objectComps = new Objects(compsImage, 2, 5, 126, 37, 300, 466, 400, 80, 1);
+
+  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+
+  const animatedObject = [objectComps];
 
   const aboutMe = document.querySelector(".about-me");
   const skills = document.querySelector(".skills");
@@ -369,11 +391,65 @@ window.addEventListener("load", () => {
     }
   }
 
+  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+
+  class MansBestFriend {
+    constructor(image, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight, array, type, frameSpeed) {
+      this.game = type;
+      this.image = image;
+      this.currentSXIndex = 0;
+      this.frameSpeed = frameSpeed || 3; // Default frame speed is 1 frame per update
   
+      this.spriteLocs = array;
+      this.sx = sX;
+      this.sy = sY;
+  
+      this.sWidth = sWidth;
+      this.sHeight = sHeight;
+      this.dX = dX;
+  
+      this.dY = dY;
+      this.dWidth = dWidth;
+      this.dHeight = dHeight;
+  
+      this.lastUpdateTime = Date.now();
+    }
+  
+    draw(context) {
+      context.save();
+      context.drawImage(
+        this.image,
+        this.sx,
+        this.sy,
+        this.sWidth,
+        this.sHeight,
+        this.dX,
+        this.dY,
+        this.dWidth,
+        this.dHeight
+      );
+      context.restore();
+    }
+  
+    update() {
+      const currentTime = Date.now();
+      const deltaTime = currentTime - this.lastUpdateTime;
+  
+      if (deltaTime > 1000 / this.frameSpeed) {
+        this.sx = this.spriteLocs[this.currentSXIndex] + this.sWidth;
+        this.currentSXIndex = (this.currentSXIndex + 1) % this.spriteLocs.length;
+        this.lastUpdateTime = currentTime;
+      }
+    }
+  }
+  
+  const petImage1 = new Image();
+  petImage1.src = "./Sprites/street-animal-pack/Dog-1/Idle.png"
+  let arraypet1 = [0, 48, 95];
+  const myDog1 = new MansBestFriend(petImage1, 0, 15, 48, 33, 40, 474, 110, 70, arraypet1, game);
 
   // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
-  
-  const animatedObject = [objectblackBackground, objectentryImage, objectComps];
+  const pets = [myDog1];
   // Animation function to update and render the game
   function animate() {
     // Clear the canvas
@@ -384,9 +460,15 @@ window.addEventListener("load", () => {
       object.draw();
     });
 
+    // Objects
     animatedObject.forEach((object) => {
       object.draw(ctx);
     });
+
+    pets.forEach((object) => {
+      object.draw(ctx);
+      object.update();
+    })
     game.render(ctx);
 
     abc();

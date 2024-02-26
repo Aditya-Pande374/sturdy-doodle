@@ -258,58 +258,56 @@ window.addEventListener("load", () => {
   // Set the initial game speed
   let gameSpeed = 5;
 
-  // Load background and platform images
-  const bgimg = new Image();
-  bgimg.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
-  const platformImage = new Image();
-  platformImage.src = "./Sprites/backgroundLayers(1)/layer-5.png";
-  const cloudImage = new Image();
-  cloudImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
-  const skyImage = new Image();
-  skyImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
-
   // Layers class handling background layers
   class Layers {
-    constructor(image, canvas, pos) {
+    constructor(image, canvas, sx, sy, sWidth, sHeight, dX, dY, dWidth, dHeight) {
       this.image = image;
-      this.x = 0;
-      this.abc = 1250;
-      this.x2 = this.abc;
-      this.canvas = canvas;
-      this.y = pos;
+      this.sx= sx;
+      this.sy = sy;
+      this.sWidth = sWidth;
+      this.sHeight = sHeight;
+      this.dX = dX;
+      this.dY = dY;
+      this.dWidth = dWidth;
+      this.dHeight = dHeight;
     }
 
     // Method to draw the background layers on the canvas
-    draw() {
-      ctx.drawImage(
-        this.image,
-        this.x,
-        this.y,
-        this.canvas.width,
-        this.canvas.height
-      );
-      ctx.drawImage(
-        this.image,
-        this.x2,
-        this.y,
-        this.canvas.width,
-        this.canvas.height
-      );
+    draw(context) {
+      context.save();
+      context.drawImage(this.image, this.sx, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+      context.restore();
     }
   }
 
+   // Load background and platform images
+   const bgimg = new Image();
+   // bgimg.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
+   bgimg.src = "./Sprites/SCS_AssetPackage_01/SCS_Background_Nighttime_01.png";
+   const buildingImage = new Image();
+   buildingImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/4.png"
+   const platformImage = new Image();
+   platformImage.src = "./Sprites/backgroundLayers(1)/layer-5.png";
+   const cloudImage = new Image();
+   cloudImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
+   const skyImage = new Image();
+   skyImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
+ 
+
   // Create instances of Layers for different background elements
-  const layer1 = new Layers(skyImage, canvas, 0);
-  const layer2 = new Layers(cloudImage, canvas, 0);
-  const layer3 = new Layers(bgimg, canvas, 0);
-  const layer4 = new Layers(platformImage, canvas, 55);
+  // constructor(image, canvas, sx, sy, sWidth, sHeight, dX, dY, dWidth, dHeight)
+  const layer1 = new Layers(skyImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  const layer2 = new Layers(cloudImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  const layer3 = new Layers(bgimg, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  const layer4 = new Layers(buildingImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height)
+  const layer5 = new Layers(platformImage, canvas, 0, 0, 2400, 648, 0, 0, canvas.width, canvas.height);
 
   // Array to store background layers
-  const screen = [layer1, layer2, layer3, layer4];
+  const screen = [layer1, layer2, layer3, layer4, layer5];
 
   //Objects
   class Objects{
-    constructor(image, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight, globalAlpha){
+    constructor(image, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight, globalAlpha, stroke){
       this.objectImage = image;
       this.sX= sX;
       this.sy = sY;
@@ -320,6 +318,7 @@ window.addEventListener("load", () => {
       this.dWidth = dWidth;
       this.dHeight = dHeight;
       this.globalAlpha = globalAlpha;
+      this.stroke = stroke;
     }
 
     draw(context){
@@ -327,14 +326,15 @@ window.addEventListener("load", () => {
       // context.fillStyle = 'black';
       // context.fillRect(0, 324, 437, 223)
       context.globalAlpha = this.globalAlpha;
-
+      
+      if(this.stroke){
+        context.strokeStyle = 'black';
+        context.strokeRect(this.dX, this.dY, this.dWidth, this.dHeight);
+        context.fillRect(this.dX+2, this.dY-2, this.dWidth+1, this.dHeight+5);
+      }
       context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
 
       context.restore();
-    }
-
-    update(){
-      
     }
   }
 
@@ -344,14 +344,25 @@ window.addEventListener("load", () => {
   blackBackground.src = "./Sprites/backgroundLayers(1)/Black.png"
   const compsImage = new Image();
   compsImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Animated objects/Screen2.png";
+  const wallImage = new Image();
+  wallImage.src = "./Sprites/brick-wall/preview.png";
+  const fenceImage = new Image();
+  fenceImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/3 Objects/Fence2.png"
 
-  const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1);
-  const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1);
-  const objectComps = new Objects(compsImage, 2, 5, 126, 37, 300, 466, 400, 80, 1);
-
+  const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1, false);
+  const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1, false);
+  const objectComps = new Objects(compsImage, 2, 5, 126, 37, 300, 466, 400, 80, 1, false);
+  const objectWall = new Objects(wallImage, 157, 33, 200, 126, 0, 343, 200, 200, 0.7, true);
+  const objectFence1 = new Objects(fenceImage, 0, 0, 32, 32, 0, 465, 85, 80, 0.7, false);
+  const animatedObject = [objectFence1];
+  let fenceIterator = 85;
+  
+  for(let i=1; i<=20; i++){
+    animatedObject.push(new Objects(fenceImage, 0, 0, 32, 32, fenceIterator * i, 465, 85, 80, 0.7, false));
+  }
+  animatedObject.push(objectComps);
   // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
 
-  const animatedObject = [objectComps];
 
   const aboutMe = document.querySelector(".about-me");
   const skills = document.querySelector(".skills");
@@ -457,7 +468,7 @@ window.addEventListener("load", () => {
 
     // Draw background layers and game elements
     screen.forEach((object) => {
-      object.draw();
+      object.draw(ctx);
     });
 
     // Objects

@@ -181,4 +181,6 @@ body{
     bottom: -7%;
     left: 50%;
     transform: translateX(-50%);
+
+    display: block;
   }

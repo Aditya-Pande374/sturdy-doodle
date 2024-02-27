@@ -23,22 +23,24 @@ body{
 }
 
 #canvas{
-    width: 100%;
-    height: 100%;
     z-index: 1;
 }
 
 .main-screen{
-    height: 85%;
+    height: 80%;
     width: 40%;
     background: rgba(34, 34, 34, 0.7);
+
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 4.5px );
     -webkit-backdrop-filter: blur( 4.5px );
     border-radius: 10px;
     border: 10px solid rgba( 255, 255, 255, 0.18 );
+
     border-radius: 20px;
     text-align: center;
+    padding: 5px;
+
     position: absolute;
     top: 2%;
     right: 3%;
@@ -47,8 +49,21 @@ body{
     /* display: none; */
 }
 
+.start-instruction{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.start-instruction h1{
+    animation: text-blip 300ms infinite alternate;
+}
+
+.after-boot-up{
+    display: none;
+}
+
 .name{
-    font-size: 45px;
     animation: text-blip 500ms infinite alternate;
 }
 
@@ -66,7 +81,8 @@ body{
 
 .keys{
     height: 50%;
-    padding: 5px 5px;
+    padding: 12px 12px;
+    margin: 50px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,25 +93,38 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60%;
-    height: 35%;
+    width: 70%;
+    height: 100%;
+}
+
+.key-456{
+    justify-content:space-around;
 }
 
 .key-2, .key-4, .key-5{
-    width: 40%;
-    /* height: 70%; */
+    width: 50%;
+    height: 80%;
     border: 2px solid white;
     padding: 5px;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 10%;
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
 }
 
 .key-456{
     justify-content: space-between;
 }
 
+.key-4, .key-5{
+    margin: 15px 10px 5px;
+}
+
 .arrow{
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .kbrd-key{
@@ -181,6 +210,4 @@ body{
     bottom: -7%;
     left: 50%;
     transform: translateX(-50%);
-
-    display: block;
   }

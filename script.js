@@ -193,11 +193,21 @@ window.addEventListener("load", () => {
         left: false,
         right: false,
         up: false, // Fly
-        down: false
+        down: false,
+        shift: false, // z(90) 
+        action: false // space-bar (32)
       };
 
       // Event listeners for keyboard input
       window.addEventListener("keydown", (e) => {
+        if(e.keyCode === 32){
+          if(!this.kbrd.action)
+          this.kbrd.action = true;
+          else
+          this.kbrd.action = false;
+
+          console.log(this.kbrd.action);
+        }
         if (this.kbrd.up && (e.keyCode === 87 || e.keyCode === 38)){
           this.kbrd.up = false;
         }else if (e.keyCode === 87 || e.keyCode === 38) {
@@ -282,28 +292,29 @@ window.addEventListener("load", () => {
 
    // Load background and platform images
    const bgimg = new Image();
-   // bgimg.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
-   bgimg.src = "./Sprites/SCS_AssetPackage_01/SCS_Background_Nighttime_01.png";
+  //  bgimg.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/Background.png";
+   bgimg.src = "./Sprites/Sidescroller Shooter - Central City/Sidescroller Shooter - Central City/Social/MockUp-01.png";
    const buildingImage = new Image();
-   buildingImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/4.png"
+   buildingImage.src = ""
    const platformImage = new Image();
    platformImage.src = "./Sprites/backgroundLayers(1)/layer-5.png";
    const cloudImage = new Image();
    cloudImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/2.png";
    const skyImage = new Image();
    skyImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Backgrounds/grey.png";
- 
 
   // Create instances of Layers for different background elements
   // constructor(image, canvas, sx, sy, sWidth, sHeight, dX, dY, dWidth, dHeight)
-  const layer1 = new Layers(skyImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
-  const layer2 = new Layers(cloudImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
-  const layer3 = new Layers(bgimg, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
-  const layer4 = new Layers(buildingImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height)
+  // const layer1 = new Layers(skyImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  // const layer2 = new Layers(cloudImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  // const layer3 = new Layers(bgimg, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  // const layer4 = new Layers(buildingImage, canvas, 0, 0, 576, 324, 0, 0, canvas.width, canvas.height);
+  const layer3 = new Layers(bgimg, canvas, 0, 0, 1920, 1060, 0, 0, canvas.width, canvas.height);
   const layer5 = new Layers(platformImage, canvas, 0, 0, 2400, 648, 0, 0, canvas.width, canvas.height);
 
   // Array to store background layers
-  const screen = [layer1, layer2, layer3, layer4, layer5];
+  // const screen = [layer1, layer2, layer3, layer4, layer5];
+  const screen = [layer3, layer5];
 
   //Objects
   class Objects{
@@ -344,22 +355,19 @@ window.addEventListener("load", () => {
   blackBackground.src = "./Sprites/backgroundLayers(1)/Black.png"
   const compsImage = new Image();
   compsImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/Animated objects/Screen2.png";
-  const wallImage = new Image();
-  wallImage.src = "./Sprites/brick-wall/preview.png";
   const fenceImage = new Image();
   fenceImage.src = "./Sprites/craftpix-net-965049-free-industrial-zone-tileset-pixel-art/3 Objects/Fence2.png"
 
   const objectentryImage = new Objects(entryImage, 32, 0, 256, 264, 0, 324, 500, 900, 1, false);
   const objectblackBackground = new Objects(blackBackground, 32, 0, 256, 264, 0, 324, 435, 220, 1, false);
   const objectComps = new Objects(compsImage, 2, 5, 126, 37, 300, 466, 400, 80, 1, false);
-  const objectWall = new Objects(wallImage, 157, 33, 200, 126, 0, 343, 200, 200, 0.7, true);
   const objectFence1 = new Objects(fenceImage, 0, 0, 32, 32, 0, 465, 85, 80, 0.7, false);
-  const animatedObject = [objectFence1];
+  const animatedObject = [];
   let fenceIterator = 85;
-  
-  for(let i=1; i<=20; i++){
-    animatedObject.push(new Objects(fenceImage, 0, 0, 32, 32, fenceIterator * i, 465, 85, 80, 0.7, false));
-  }
+
+  // for(let i=1; i<=20; i++){
+  //   animatedObject.push(new Objects(fenceImage, 0, 0, 32, 32, fenceIterator * i, 465, 85, 80, 0.7, false));
+  // }
   animatedObject.push(objectComps);
   // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
 
@@ -368,34 +376,51 @@ window.addEventListener("load", () => {
   const skills = document.querySelector(".skills");
   const projects = document.querySelector(".projects");
   const contactMe = document.querySelector(".contact-me");
+  const mainScreen = document.querySelector(".main-screen");
+  const preboot = document.querySelector(".pre-boot-up");
+  const afterboot = document.querySelector(".after-boot-up");
 
   function abc(){
-    console.log("Player: "+game.player.collisionX);
-    console.log("Comp 1: "+objectComps.dX);
+    
+    const aboutBool = game.player.collisionX > objectComps.dX - 50 && game.player.collisionX < objectComps.dX && game.player.collisionY > 400;
+    const skillBool = game.player.collisionX >= objectComps.dX + 50 && game.player.collisionX < objectComps.dX + 110 && game.player.collisionY > 400;
+    const projectsBool = game.player.collisionX > objectComps.dX + 150 && game.player.collisionX < objectComps.dX + 210 && game.player.collisionY > 400;
+    const contactBool = game.player.collisionX > objectComps.dX + 250 && game.player.collisionX < objectComps.dX + 310 && game.player.collisionY > 400;
+    
+    //Main-Screen
+    if(!game.kbrd.action){
+      preboot.style.display = 'flex';
+      afterboot.style.display = 'none';
+    }else if(game.kbrd.action){
+      afterboot.style.display = 'block';
+      preboot.style.display = 'none';
+    }
     //About-Me
-    if(game.player.collisionX > objectComps.dX - 50 && game.player.collisionX < objectComps.dX){
+    if(aboutBool){
+      console.log("Player: "+game.player.collisionY);
+      console.log("Comp 1: "+objectComps.dX);
       console.log(true);
       aboutMe.style.display = 'block';
     }else {
       aboutMe.style.display = 'none';
     }
     //Skills
-    if(game.player.collisionX >= objectComps.dX + 50 && game.player.collisionX < objectComps.dX + 110){
-      console.log(true);
+    if(skillBool){
+      // console.log(true);
       skills.style.display = 'block';
     }else {
       skills.style.display = 'none';
     }
     //Projects
-    if(game.player.collisionX > objectComps.dX + 150 && game.player.collisionX < objectComps.dX + 210){
-      console.log(true);
+    if(projectsBool){
+      // console.log(true);
       projects.style.display = 'block';
     }else {
       projects.style.display = 'none';
     }
     //Contact-Me
-    if(game.player.collisionX > objectComps.dX + 250 && game.player.collisionX < objectComps.dX + 310){
-      console.log(true);
+    if(contactBool){
+      // console.log(true);
       contactMe.style.display = 'block';
     }else {
       contactMe.style.display = 'none';
@@ -409,7 +434,7 @@ window.addEventListener("load", () => {
       this.game = type;
       this.image = image;
       this.currentSXIndex = 0;
-      this.frameSpeed = frameSpeed || 3; // Default frame speed is 1 frame per update
+      this.frameSpeed = frameSpeed || 10; // Default frame speed is 1 frame per update
   
       this.spriteLocs = array;
       this.sx = sX;
@@ -455,7 +480,7 @@ window.addEventListener("load", () => {
   }
   
   const petImage1 = new Image();
-  petImage1.src = "./Sprites/street-animal-pack/Dog-1/Idle.png"
+  petImage1.src = "./Sprites/street-animal-pack/Dog-1/Attack.png"
   let arraypet1 = [0, 48, 95];
   const myDog1 = new MansBestFriend(petImage1, 0, 15, 48, 33, 40, 474, 110, 70, arraypet1, game);
 
@@ -475,11 +500,13 @@ window.addEventListener("load", () => {
     animatedObject.forEach((object) => {
       object.draw(ctx);
     });
-
+    
+    // Pet
     pets.forEach((object) => {
       object.draw(ctx);
       object.update();
     })
+
     game.render(ctx);
 
     abc();

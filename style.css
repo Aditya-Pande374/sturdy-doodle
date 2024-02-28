@@ -49,6 +49,10 @@ body{
     /* display: none; */
 }
 
+.boot {
+    display: none;
+}
+
 .start-instruction{
     display: flex;
     align-items: center;
@@ -211,3 +215,115 @@ body{
     left: 50%;
     transform: translateX(-50%);
   }
+
+
+/* About-Me */
+
+#about {
+    width: 100%;
+    height: 100%;
+    padding: 20px 0px;    
+    overflow: hidden;
+}
+
+#main, #more-about {
+    width: 100%;
+}
+
+#more-about {
+    display: flex;
+    flex-direction: column;
+}
+
+#me,
+#cert {
+    width: 100%;
+}
+
+#more-about h4 {
+    font-size: 1em;
+}
+
+#more-about p,
+#cert ul {
+    color: rgb(184, 178, 178);
+    font-size: 1.2em;
+    padding: 0;
+}
+
+#me {
+    display: flex;
+    text-align: left;
+    gap: 1em;
+}
+
+#more-about p span {
+    color: ghostwhite;
+}
+
+#cert {
+    width: 100%;
+    display: flex;
+    gap: 1em;
+    text-align: left;
+}
+
+#me h4,
+#cert h4 {
+    white-space: nowrap;
+}
+
+#cert-list li:nth-child(even){
+    margin: 12px 0;
+}
+
+#cert li a {
+    transition: .4s;
+    font-size: 1.2rem;
+    color: aliceblue;
+}
+
+#cert a:hover {
+    color: rgb(254, 145, 145);
+}
+
+.corner-border {
+    height: 50px;
+    width: 50px;
+}
+
+.top-left-border {
+    border-left: 7px solid aliceblue;
+    border-top: 7px solid aliceblue;
+    border-top-left-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;   
+}
+
+.top-right-border {
+    border-right: 7px solid aliceblue;
+    border-top: 7px solid aliceblue;
+    border-top-right-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.bottom-left-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-left: 7px solid aliceblue;
+    border-bottom: 7px solid aliceblue;
+    border-bottom-left-radius: 10px;
+}
+
+.bottom-right-border {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-right: 7px solid aliceblue;
+    border-bottom: 7px solid aliceblue;
+    border-bottom-right-radius: 10px;
+}

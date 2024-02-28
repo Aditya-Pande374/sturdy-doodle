@@ -103,10 +103,6 @@ window.addEventListener("load", () => {
       
       this.frameSpeed = 5;
       this.lastUpdateTime = Date.now();
-      
-
-      // Jump Images
-      
     }
 
     // Method to draw the player sprite when moving right
@@ -203,8 +199,6 @@ window.addEventListener("load", () => {
         if(e.keyCode === 32){
           if(!this.kbrd.action)
           this.kbrd.action = true;
-          else
-          this.kbrd.action = false;
 
           console.log(this.kbrd.action);
         }
@@ -371,64 +365,6 @@ window.addEventListener("load", () => {
   animatedObject.push(objectComps);
   // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
 
-
-  const aboutMe = document.querySelector(".about-me");
-  const skills = document.querySelector(".skills");
-  const projects = document.querySelector(".projects");
-  const contactMe = document.querySelector(".contact-me");
-  const mainScreen = document.querySelector(".main-screen");
-  const preboot = document.querySelector(".pre-boot-up");
-  const afterboot = document.querySelector(".after-boot-up");
-
-  function abc(){
-    
-    const aboutBool = game.player.collisionX > objectComps.dX - 50 && game.player.collisionX < objectComps.dX && game.player.collisionY > 400;
-    const skillBool = game.player.collisionX >= objectComps.dX + 50 && game.player.collisionX < objectComps.dX + 110 && game.player.collisionY > 400;
-    const projectsBool = game.player.collisionX > objectComps.dX + 150 && game.player.collisionX < objectComps.dX + 210 && game.player.collisionY > 400;
-    const contactBool = game.player.collisionX > objectComps.dX + 250 && game.player.collisionX < objectComps.dX + 310 && game.player.collisionY > 400;
-    
-    //Main-Screen
-    if(!game.kbrd.action){
-      preboot.style.display = 'flex';
-      afterboot.style.display = 'none';
-    }else if(game.kbrd.action){
-      afterboot.style.display = 'block';
-      preboot.style.display = 'none';
-    }
-    //About-Me
-    if(aboutBool){
-      console.log("Player: "+game.player.collisionY);
-      console.log("Comp 1: "+objectComps.dX);
-      console.log(true);
-      aboutMe.style.display = 'block';
-    }else {
-      aboutMe.style.display = 'none';
-    }
-    //Skills
-    if(skillBool){
-      // console.log(true);
-      skills.style.display = 'block';
-    }else {
-      skills.style.display = 'none';
-    }
-    //Projects
-    if(projectsBool){
-      // console.log(true);
-      projects.style.display = 'block';
-    }else {
-      projects.style.display = 'none';
-    }
-    //Contact-Me
-    if(contactBool){
-      // console.log(true);
-      contactMe.style.display = 'block';
-    }else {
-      contactMe.style.display = 'none';
-    }
-  }
-
-  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
-
   class MansBestFriend {
     constructor(image, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight, array, type, frameSpeed) {
       this.game = type;
@@ -485,7 +421,43 @@ window.addEventListener("load", () => {
   const myDog1 = new MansBestFriend(petImage1, 0, 15, 48, 33, 40, 474, 110, 70, arraypet1, game);
 
   // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+
   const pets = [myDog1];
+  
+  // Banners
+  const aboutMe = document.querySelector(".about-me");
+  const skills = document.querySelector(".skills");
+  const projects = document.querySelector(".projects");
+  const contactMe = document.querySelector(".contact-me");
+
+  // Intro+Instruction
+  const preboot = document.querySelector(".pre-boot-up");
+  const afterboot = document.querySelector(".after-boot-up");
+
+  function startUp() {
+    const isInRange = (start, end) => game.player.collisionX > objectComps.dX + start && game.player.collisionX < objectComps.dX + end && game.player.collisionY > 400;
+
+    const displaySection = (element, start, end) => {
+        const inRange = isInRange(start, end);
+        element.style.display = inRange ? 'block' : 'none';
+    };
+
+    // Main-Screen
+    // if (game.kbrd.action) {
+    //     afterboot.style.display = 'block';
+    //     preboot.style.display = 'none';
+    // }
+    // About-Me
+    displaySection(aboutMe, -50, 0);
+    // Skills
+    displaySection(skills, 50, 110);
+    // Projects
+    displaySection(projects, 150, 210);
+    // Contact-Me
+    displaySection(contactMe, 250, 310);
+  }
+
+
   // Animation function to update and render the game
   function animate() {
     // Clear the canvas
@@ -509,7 +481,7 @@ window.addEventListener("load", () => {
 
     game.render(ctx);
 
-    abc();
+    startUp();
     // Request the next animation frame
     requestAnimationFrame(animate);
   }

@@ -29,8 +29,9 @@ body {
 .main-screen {
     height: 80%;
     width: 40%;
-    background: rgba(34, 34, 34, 0.7);
 
+    /* Glassmorphsm */
+    background: rgba(34, 34, 34, 0.7);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(4.5px);
     -webkit-backdrop-filter: blur(4.5px);
@@ -232,6 +233,9 @@ body {
     transform: translateX(-50%);
 }
 
+
+
+/* Important, always set display: block; */
 .boot {
     display: flex;
     justify-content: center;
@@ -249,7 +253,7 @@ body {
     padding: 20px 0px;
     overflow-x: hidden;
     overflow-y: scroll;
-    /* display: none; */
+    display: none;
 }
 
 #main,
@@ -414,3 +418,63 @@ body {
     border-bottom: 7px solid aliceblue;
     border-bottom-right-radius: 10px;
 }
+
+
+/* Skills */
+#skills {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    /* border: 2px solid red; */
+    height: 100%;
+}
+
+.this-class{
+    margin-top: 50px;
+
+    display: grid;
+    grid-template-rows: repeat(3,1fr); /* Two rows with equal height */
+    grid-template-columns: repeat(2, 1fr); /* Three columns with equal width */
+    /* Adjust the gap as per your preference    */
+    grid-auto-rows: minmax(auto, max-content);
+
+    height: 100%;
+    width: 100%;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.this-class div, .this-class div button{
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: aliceblue;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.this-class div button:hover{
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.986);
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    border: 2px solid rgba(255, 255, 255, 0.18);
+
+    border-radius: 10px;
+}
+
+.skill-list {
+    text-align: left;
+}
+
+.skill-list div ul li{
+    font-size: small;
+    text-align: left;
+
+}
+
+.skill-list div ul li:nth-child(even){
+    margin: 10px 0;
+}
+

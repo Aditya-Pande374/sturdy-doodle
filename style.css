@@ -52,6 +52,16 @@ body {
     /* display: none; */
 }
 
+/* Important, always set display: block; */
+.boot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    display: none;
+}
+
+
 .start-instruction {
     display: flex;
     align-items: center;
@@ -153,21 +163,16 @@ body {
 }
 
 
-.about-me,
-.skills,
-.projects,
-.contact-me {
+.letters {
     color: aliceblue;
     font-weight: bolder;
     text-shadow: 0px 2.4px 1px rgb(0, 0, 0), 0 5px 10px black, 0 0 10px ghostwhite;
     z-index: 3;
-    font-size: large;
+    font-size: larger;
     /* border-top: 2px solid white;
     border-left: 1px solid white;
     border-right: 1px solid white;
     border-bottom: 7px solid white; */
-
-    /* background: rgba(255, 255, 255, 0.2); */
 
     position: absolute;
     top: 49%;
@@ -192,26 +197,24 @@ body {
     }
 }
 
-/* 
-.letters div{
-    margin-bottom: 2px;
-} */
 
 .about-me {
     left: 25%;
+    top: 43%;
 }
 
 .skills {
+    top: 42%;
     left: 33%;
 }
 
 .projects {
-    top: 38%;
+    top: 30%;
     left: 41%;
 }
 
 .contact-me {
-    top: 42%;
+    top: 35%;
     left: 49%;
 }
 
@@ -229,21 +232,9 @@ body {
     /* background: rgba(255, 255, 255, 0.2); */
     position: absolute;
     bottom: -7%;
-    left: 50%;
+    left: 71%;
     transform: translateX(-50%);
 }
-
-
-
-/* Important, always set display: block; */
-.boot {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    display: none;
-}
-
 
 /* About-Me */
 
@@ -421,7 +412,7 @@ body {
 
 
 /* Skills */
-#skills {
+#skills-section {
     display: flex;
     flex-direction: column;
     justify-content: center;

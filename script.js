@@ -458,22 +458,23 @@ window.addEventListener("load", () => {
         console.log("inRange");
         window.addEventListener('keydown', (e) => {
           if(e.keyCode == 32){
+            afterboot.style.display = 'none';
             this.showSection(associatedPortElement);
           }
         })
       }
     }
 
-      showSection(element) {
-        for(let i=0; i<sectionsArray.length; i++){
-          if(sectionsArray[i].style.display === 'block'){
-            sectionsArray[i].style.display = 'none';
-          }
-          if(sectionsArray[i] === element){
-            element.style.display = 'block';
-          }
+    showSection(element) {
+      for (let i = 0; i < sectionsArray.length; i++) {
+        if (sectionsArray[i].style.zIndex === '100') {
+          sectionsArray[i].style.zIndex = '1'; // Keep it as a string
+        }
+        if (sectionsArray[i] === element) {
+          element.style.zIndex = '100';
         }
       }
+    }
   }
 
   const objScreen = new SwitchScreen();

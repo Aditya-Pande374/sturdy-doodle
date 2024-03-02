@@ -189,19 +189,11 @@ window.addEventListener("load", () => {
         left: false,
         right: false,
         up: false, // Fly
-        down: false,
-        shift: false, // z(90) 
-        action: false // space-bar (32)
+        down: false
       };
 
       // Event listeners for keyboard input
       window.addEventListener("keydown", (e) => {
-        if(e.keyCode === 32){
-          if(!this.kbrd.action)
-          this.kbrd.action = true;
-
-          console.log(this.kbrd.action);
-        }
         if (this.kbrd.up && (e.keyCode === 87 || e.keyCode === 38)){
           this.kbrd.up = false;
         }else if (e.keyCode === 87 || e.keyCode === 38) {
@@ -420,43 +412,71 @@ window.addEventListener("load", () => {
   let arraypet1 = [0, 48, 95];
   const myDog1 = new MansBestFriend(petImage1, 0, 15, 48, 33, 40, 474, 110, 70, arraypet1, game);
 
-  // context.drawImage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
+  // context.drawI  mage(this.objectImage, this.sX, this.sy, this.sWidth, this.sHeight, this.dX, this.dY, this.dWidth, this.dHeight);
 
   const pets = [myDog1];
   
   // Banners
-  const aboutMe = document.querySelector(".about-me");
-  const skills = document.querySelector(".skills");
-  const projects = document.querySelector(".projects");
-  const contactMe = document.querySelector(".contact-me");
+  const aboutMeBanner = document.querySelector(".about-me");
+  const skillsBanner= document.querySelector(".skills");
+  const projectsBanner = document.querySelector(".projects");
+  const contactMeBanner = document.querySelector(".contact-me");
 
+  // Portfolio 
+  let action = false;
+  
   // Intro+Instruction
-  const preboot = document.querySelector(".pre-boot-up");
-  const afterboot = document.querySelector(".after-boot-up");
+  const preboot = document.querySelector(".pre-boot-up"); // "press Space to Start"
+  const afterboot = document.querySelector(".after-boot-up"); // Instructions
 
-  function startUp() {
-    const isInRange = (start, end) => game.player.collisionX > objectComps.dX + start && game.player.collisionX < objectComps.dX + end && game.player.collisionY > 400;
+  //Portfolio sections
+  const aboutPort = document.getElementById('about');
+  const skillsPort = document.getElementById('skills-section');
+  const projectsPort = document.getElementById('projects');
+  const contactPort = document.getElementById('contact');
 
-    const displaySection = (element, start, end) => {
-        const inRange = isInRange(start, end);
-        element.style.display = inRange ? 'block' : 'none';
-    };
+  const sectionsArray = [afterboot, aboutPort, skillsPort, projectsPort, contactPort];
+  class SwitchScreen {
+    startUp() {
+      // About-Me
+      this.displaySection(aboutMeBanner, -50, 0, aboutPort);
+      // Skills
+      this.displaySection(skillsBanner, 50, 110, skillsPort);
+      // Projects
+      this.displaySection(projectsBanner, 150, 210, projectsPort);
+      // Contact-Me
+      this.displaySection(contactMeBanner, 250, 310, contactPort);
+    }
 
-    // Main-Screen
-    // if (game.kbrd.action) {
-    //     afterboot.style.display = 'block';
-    //     preboot.style.display = 'none';
-    // }
-    // About-Me
-    displaySection(aboutMe, -50, 0);
-    // Skills
-    displaySection(skills, 50, 110);
-    // Projects
-    displaySection(projects, 150, 210);
-    // Contact-Me
-    displaySection(contactMe, 250, 310);
+    displaySection (element, start, end, associatedPortElement){
+      const isInRange = (start, end) => game.player.collisionX > objectComps.dX + start && game.player.collisionX < objectComps.dX + end && game.player.collisionY > 400;
+
+      const inRange = isInRange(start, end);
+      element.style.display = inRange ? 'block' : 'none';
+
+      if(inRange){
+        console.log("inRange");
+        window.addEventListener('keydown', (e) => {
+          if(e.keyCode == 32){
+            this.showSection(associatedPortElement);
+          }
+        })
+      }
+    }
+
+      showSection(element) {
+        for(let i=0; i<sectionsArray.length; i++){
+          if(sectionsArray[i].style.display === 'block'){
+            sectionsArray[i].style.display = 'none';
+          }
+          if(sectionsArray[i] === element){
+            element.style.display = 'block';
+          }
+        }
+      }
   }
 
+  const objScreen = new SwitchScreen();
 
   // Animation function to update and render the game
   function animate() {
@@ -480,8 +500,7 @@ window.addEventListener("load", () => {
     })
 
     game.render(ctx);
-
-    startUp();
+    objScreen.startUp();
     // Request the next animation frame
     requestAnimationFrame(animate);
   }
